@@ -31,12 +31,19 @@ namespace TurkeyTimeAPI
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             services.AddTransient<ApplicationDBContext>();
-
             services.AddDbContext<ApplicationDBContext>(opt => {
                 opt.UseSqlite($"Data Source = { path }/fooditems.db");
             });
 
             services.AddControllers();
+            services.AddCors(opt => {
+                opt.AddPolicy("CorsPolicy", policy => {
+                    policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +57,8 @@ namespace TurkeyTimeAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {

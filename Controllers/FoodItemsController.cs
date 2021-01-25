@@ -10,7 +10,7 @@ using TurkeyTimeAPI.Models;
 
 namespace TurkeyTimeAPI.Controllers
 {
-    [Route("/")]
+    [Route("/api")]
     [ApiController]
     public class FoodItemsController : ControllerBase
     {
@@ -22,8 +22,7 @@ namespace TurkeyTimeAPI.Controllers
         }
 
         // GET: api/FoodItems
-        [HttpGet]
-       
+        [HttpGet]       
         public async Task<ActionResult<IEnumerable<FoodItem>>> GetFoodItems()
         {
             return await _context.FoodItems.ToListAsync();
